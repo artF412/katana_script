@@ -273,7 +273,6 @@ class MainUI(object):
             self.col_lineEdit.setReadOnly(True)
             self.emi_lineEdit.setText(selected_file)
 
-
 # Build UI
     app = QtWidgets.QApplication.instance()
     Form = QtWidgets.QWidget()
