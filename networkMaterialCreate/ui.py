@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog
-from os.path import expanduser
+import os
+from os.path import expanduser, splitext
 home = expanduser("~")
 
 class MainUI(object):
@@ -130,7 +131,7 @@ class MainUI(object):
         self.col_toolButton.clicked.connect(self.open_fileDialog_select_col)
         self.nrm_toolButton.clicked.connect(self.open_fileDialog_select_nrm)
         self.rgh_toolButton.clicked.connect(self.open_fileDialog_select_rgh)
-        self.rgh_toolButton.clicked.connect(self.open_fileDialog_select_met)
+        self.met_toolButton.clicked.connect(self.open_fileDialog_select_met)
         self.ao_toolButton.clicked.connect(self.open_fileDialog_select_ao)
         self.bmp_toolButton.clicked.connect(self.open_fileDialog_select_bmp)
         self.emi_toolButton.clicked.connect(self.open_fileDialog_select_emi)
@@ -164,107 +165,114 @@ class MainUI(object):
         file_dialog = QFileDialog()
         file_dialog.setWindowTitle("Katana Workflow to Image Maps")
         file_dialog.setDirectory(home)
-        file_dialog.setNameFilter("Image files (*.jpg *.png *.bmp *.jpeg *.tif)")
-        file_paths, _ = file_dialog.getOpenFileNames(None, "Open Images", "", "Image files (*.jpg *.png *.bmp *.jpeg *.tif)", options=options)
+        file_dialog.setNameFilter("Image files (*.jpg *.png *.exr *.tif *.tga *.tx)")
+        file_paths, _ = file_dialog.getOpenFileNames(None, "Open Images", "", "Image files (*.jpg *.png *.exr *.tif *.tga *.tx)", options=options)
 
         if file_paths:
-            # Do something with the selected file paths, e.g., display them in a text field or store them in a variable.
-            # Here, I'm just printing the selected file paths to the console.
-            print("Selected image files:")
             for path in file_paths:
-                print(path)
+                file_name = path.split("/")[-1]  # Extract the file name from the path
+                base_name, extension = os.path.splitext(file_name)
+                # Check file name patterns and set the appropriate line edits
+                if base_name.endswith(".col"):
+                    self.col_lineEdit.setText(path)
+                elif base_name.endswith(".nrm"):
+                    self.nrm_lineEdit.setText(path)
+                elif base_name.endswith(".rgh"):
+                    self.rgh_lineEdit.setText(path)
+                elif base_name.endswith(".met"):
+                    self.met_lineEdit.setText(path)
+                elif base_name.endswith(".ao"):
+                    self.ao_lineEdit.setText(path)
+                elif base_name.endswith(".bmp"):
+                    self.bmp_lineEdit.setText(path)
+                elif base_name.endswith(".emi"):
+                    self.emi_lineEdit.setText(path)
 
     def open_fileDialog_select_col(self):
-        options = QFileDialog.Options()
-        file_dialog = QFileDialog()
-        file_dialog.setWindowTitle("Base Color")
-        file_dialog.setDirectory(home)
-        file_dialog.setNameFilter("Image files (*.jpg *.png *.bmp *.jpeg *.tif)")
-        file_paths, _ = file_dialog.getOpenFileNames(None, "Open Images", "", "Image files (*.jpg *.png *.bmp *.jpeg *.tif)", options=options)
+        col_options = QFileDialog.Options()
+        col_dialog = QFileDialog()
+        col_dialog.setWindowTitle("Base Color")
+        col_dialog.setDirectory(home)
+        col_dialog.setNameFilter("Image files (*.jpg *.png *.exr *.tif *.tga *.tx)")
+        col_selected_file, _ = col_dialog.getOpenFileName(None, "Open Image", "", "Image files (*.jpg *.png *.exr *.tif *.tga *.tx)", options=col_options)
 
-        if file_paths:
-            selected_file = file_paths[0]
+        if col_selected_file:
             self.col_lineEdit.setReadOnly(True)
-            self.col_lineEdit.setText(selected_file)
+            self.col_lineEdit.setText(col_selected_file)
+
 
     def open_fileDialog_select_nrm(self):
-        options = QFileDialog.Options()
-        file_dialog = QFileDialog()
-        file_dialog.setWindowTitle("Normal")
-        file_dialog.setDirectory(home)
-        file_dialog.setNameFilter("Image files (*.jpg *.png *.bmp *.jpeg *.tif)")
-        file_paths, _ = file_dialog.getOpenFileNames(None, "Open Images", "", "Image files (*.jpg *.png *.bmp *.jpeg *.tif)", options=options)
+        nrm_options = QFileDialog.Options()
+        nrm_dialog = QFileDialog()
+        nrm_dialog.setWindowTitle("Normal")
+        nrm_dialog.setDirectory(home)
+        nrm_dialog.setNameFilter("Image files (*.jpg *.png *.exr *.tif *.tga *.tx)")
+        nrm_selected_file, _ = nrm_dialog.getOpenFileName(None, "Open Images", "", "Image files (*.jpg *.png *.exr *.tif *.tga *.tx)", options=nrm_options)
 
-        if file_paths:
-            selected_file = file_paths[0]
-            self.col_lineEdit.setReadOnly(True)
-            self.nrm_lineEdit.setText(selected_file)
+        if nrm_selected_file:
+            self.nrm_lineEdit.setReadOnly(True)
+            self.nrm_lineEdit.setText(nrm_selected_file)
 
     def open_fileDialog_select_rgh(self):
-        options = QFileDialog.Options()
-        file_dialog = QFileDialog()
-        file_dialog.setWindowTitle("Roughness")
-        file_dialog.setDirectory(home)
-        file_dialog.setNameFilter("Image files (*.jpg *.png *.bmp *.jpeg *.tif)")
-        file_paths, _ = file_dialog.getOpenFileNames(None, "Open Images", "", "Image files (*.jpg *.png *.bmp *.jpeg *.tif)", options=options)
+        rgh_options = QFileDialog.Options()
+        rgh_dialog = QFileDialog()
+        rgh_dialog.setWindowTitle("Roughness")
+        rgh_dialog.setDirectory(home)
+        rgh_dialog.setNameFilter("Image files (*.jpg *.png *.exr *.tif *.tga *.tx)")
+        rgh_selected_file, _ = rgh_dialog.getOpenFileName(None, "Open Image", "", "Image files (*.jpg *.png *.exr *.tif *.tga *.tx)", options=rgh_options)
 
-        if file_paths:
-            selected_file = file_paths[0]
-            self.col_lineEdit.setReadOnly(True)
-            self.rgh_lineEdit.setText(selected_file)
+        if rgh_selected_file:
+            self.rgh_lineEdit.setReadOnly(True)
+            self.rgh_lineEdit.setText(rgh_selected_file)
 
     def open_fileDialog_select_met(self):
-        options = QFileDialog.Options()
-        file_dialog = QFileDialog()
-        file_dialog.setWindowTitle("Metalness")
-        file_dialog.setDirectory(home)
-        file_dialog.setNameFilter("Image files (*.jpg *.png *.bmp *.jpeg *.tif)")
-        file_paths, _ = file_dialog.getOpenFileNames(None, "Open Images", "", "Image files (*.jpg *.png *.bmp *.jpeg *.tif)", options=options)
+        met_options = QFileDialog.Options()
+        met_dialog = QFileDialog()
+        met_dialog.setWindowTitle("Metalness")
+        met_dialog.setDirectory(home)
+        met_dialog.setNameFilter("Image files (*.jpg *.png *.exr *.tif *.tga *.tx)")
+        met_selected_file, _ = met_dialog.getOpenFileName(None, "Open Images", "", "Image files (*.jpg *.png *.exr *.tif *.tga *.tx)", options=met_options)
 
-        if file_paths:
-            selected_file = file_paths[0]
-            self.col_lineEdit.setReadOnly(True)
-            self.met_lineEdit.setText(selected_file)
+        if met_selected_file:
+            self.met_lineEdit.setReadOnly(True)
+            self.met_lineEdit.setText(met_selected_file)
 
     def open_fileDialog_select_ao(self):
-        options = QFileDialog.Options()
-        file_dialog = QFileDialog()
-        file_dialog.setWindowTitle("Ambient occlusion")
-        file_dialog.setDirectory(home)
-        file_dialog.setNameFilter("Image files (*.jpg *.png *.bmp *.jpeg *.tif)")
-        file_paths, _ = file_dialog.getOpenFileNames(None, "Open Images", "", "Image files (*.jpg *.png *.bmp *.jpeg *.tif)", options=options)
+        ao_options = QFileDialog.Options()
+        ao_dialog = QFileDialog()
+        ao_dialog.setWindowTitle("Ambient occlusion")
+        ao_dialog.setDirectory(home)
+        ao_dialog.setNameFilter("Image files (*.jpg *.png *.exr *.tif *.tga *.tx)")
+        ao_selected_file, _ = ao_dialog.getOpenFileName(None, "Open Images", "", "Image files (*.jpg *.png *.exr *.tif *.tga *.tx)", options=ao_options)
 
-        if file_paths:
-            selected_file = file_paths[0]
-            self.col_lineEdit.setReadOnly(True)
-            self.ao_lineEdit.setText(selected_file)
+        if ao_selected_file:
+            self.ao_lineEdit.setReadOnly(True)
+            self.ao_lineEdit.setText(ao_selected_file)
 
     def open_fileDialog_select_bmp(self):
-        options = QFileDialog.Options()
-        file_dialog = QFileDialog()
-        file_dialog.setWindowTitle("Height")
-        file_dialog.setDirectory(home)
-        file_dialog.setNameFilter("Image files (*.jpg *.png *.bmp *.jpeg *.tif)")
-        file_paths, _ = file_dialog.getOpenFileNames(None, "Open Images", "", "Image files (*.jpg *.png *.bmp *.jpeg *.tif)", options=options)
+        bmp_options = QFileDialog.Options()
+        bmp_dialog = QFileDialog()
+        bmp_dialog.setWindowTitle("Height")
+        bmp_dialog.setDirectory(home)
+        bmp_dialog.setNameFilter("Image files (*.jpg *.png *.exr *.tif *.tga *.tx)")
+        bmp_selected_file, _ = bmp_dialog.getOpenFileName(None, "Open Images", "", "Image files (*.jpg *.png *.exr *.tif *.tga *.tx)", options=bmp_options)
 
-        if file_paths:
-            selected_file = file_paths[0]
-            self.col_lineEdit.setReadOnly(True)
-            self.bmp_lineEdit.setText(selected_file)
+        if bmp_selected_file:
+            self.bmp_lineEdit.setReadOnly(True)
+            self.bmp_lineEdit.setText(bmp_selected_file)
 
 
     def open_fileDialog_select_emi(self):
-        options = QFileDialog.Options()
-        file_dialog = QFileDialog()
-        file_dialog.setWindowTitle("Emission")
-        file_dialog.setDirectory(home)
-        file_dialog.setNameFilter("Image files (*.jpg *.png *.bmp *.jpeg *.tif)")
-        file_paths, _ = file_dialog.getOpenFileNames(None, "Open Images", "", "Image files (*.jpg *.png *.bmp *.jpeg *.tif)", options=options)
+        emi_options = QFileDialog.Options()
+        emi_dialog = QFileDialog()
+        emi_dialog.setWindowTitle("Emission")
+        emi_dialog.setDirectory(home)
+        emi_dialog.setNameFilter("Image files (*.jpg *.png *.exr *.tif *.tga *.tx)")
+        emi_selected_file, _ = emi_dialog.getOpenFileName(None, "Open Images", "", "Image files (*.jpg *.png *.exr *.tif *.tga *.tx)", options=emi_options)
 
-        if file_paths:
-            selected_file = file_paths[0]
-            self.col_lineEdit.setReadOnly(True)
-            self.emi_lineEdit.setText(selected_file)
+        if emi_selected_file:
+            self.emi_lineEdit.setReadOnly(True)
+            self.emi_lineEdit.setText(emi_selected_file)
 
     def apply_button_link(self):
         pass
