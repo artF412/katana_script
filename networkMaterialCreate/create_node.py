@@ -75,6 +75,10 @@ image_col_out = image_col.getOutputPort('out')
 color_correct_input = color_correct.getInputPort('input')
 image_col_out.connect(color_correct_input)
 
+# Get parameter image_col filename
+image_col.getParameter('parameters.filename.value').setValue('/home/faiz/Documents/rename/body.1001.col.tif', 0)
+image_col.getParameter('parameters.filename.enable').setValue(1, 0)
+
 
 # create node image_roughtness
 image_rgh = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
@@ -86,6 +90,10 @@ image_rgh.checkDynamicParameters()
 image_rgh_out = image_rgh.getOutputPort('out')
 rgh_ramp_float_input = rgh_ramp_float.getInputPort('input')
 image_rgh_out.connect(rgh_ramp_float_input)
+
+# Get parameters image_rgh filename
+image_rgh.getParameter('parameters.filename.value').setValue('/home/faiz/Documents/rename/body.1001.rgh.tif', 0)
+image_rgh.getParameter('parameters.filename.enable').setValue(1, 0)
 
 
 # create node image_matelness
@@ -99,17 +107,26 @@ image_met_out = image_met.getOutputPort('out')
 met_ramp_float_input = met_ramp_float.getInputPort('input')
 image_met_out.connect(met_ramp_float_input)
 
+# Get parameters image_met filename
+image_met.getParameter('parameters.filename.value').setValue('/home/faiz/Documents/rename/body.1001.met.tif', 0)
+image_met.getParameter('parameters.filename.enable').setValue(1, 0)
+
 
 # create node image_normal_map
-image_normal_map = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-image_normal_map.getParameter('name').setValue('nrm',0)
-image_normal_map.getParameter('nodeType').setValue('image',0)
-image_met.checkDynamicParameters()
+image_nrm = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
+image_nrm.getParameter('name').setValue('nrm',0)
+image_nrm.getParameter('nodeType').setValue('image',0)
+image_nrm.checkDynamicParameters()
 
 # Link node nrm [out] -> [normal] node normal_map
-image_normal_map_out = image_normal_map.getOutputPort('out')
+image_nrm_out = image_nrm.getOutputPort('out')
 normal_map_input = normal_map.getInputPort('input')
-image_normal_map_out.connect(normal_map_input)
+image_nrm_out.connect(normal_map_input)
+
+# Get parameters image_normal_map filename
+image_nrm.getParameter('parameters.filename.value').setValue('/home/faiz/Documents/rename/body.1001.nrm.tif', 0)
+image_nrm.getParameter('parameters.filename.enable').setValue(1, 0)
+
 
 
 # Position Node
@@ -123,4 +140,4 @@ NodegraphAPI.SetNodePosition(normal_map,(standard_surface_position[0]-400,standa
 NodegraphAPI.SetNodePosition(image_col,(standard_surface_position[0]-800,standard_surface_position[1]))
 NodegraphAPI.SetNodePosition(image_rgh,(standard_surface_position[0]-800,standard_surface_position[1]-400))
 NodegraphAPI.SetNodePosition(image_met,(standard_surface_position[0]-800,standard_surface_position[1]-800))
-NodegraphAPI.SetNodePosition(image_normal_map,(standard_surface_position[0]-800,standard_surface_position[1]-1200))
+NodegraphAPI.SetNodePosition(image_nrm,(standard_surface_position[0]-800,standard_surface_position[1]-1200))
