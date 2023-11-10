@@ -288,7 +288,8 @@ class MainUI(object):
 
     def cancel_button_close(self):
         self.Form.close()
-        
+
+
     def create_katana_nodes(self, path_col, path_nrm, path_rgh, path_met, path_bmp, path_ao, path_emi):
         root_node = NodegraphAPI.GetRootNode()
 
