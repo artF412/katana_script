@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog
+from PyQt5.QtGui import QIcon
 import os
 from os.path import expanduser, splitext
 home = expanduser("~")
@@ -8,7 +9,7 @@ class MainUI(object):
     def setupUi(self, Form):
         self.Form = Form
         Form.setObjectName("Form")
-        Form.resize(615, 455)
+        Form.resize(615, 500)
         self.select_multiple_image = QtWidgets.QPushButton(Form)
         self.select_multiple_image.setGeometry(QtCore.QRect(230, 30, 250, 40))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
@@ -75,6 +76,20 @@ class MainUI(object):
         font.setWeight(75)
         self.bmp_label.setFont(font)
         self.bmp_label.setObjectName("bmp_label")
+        
+        self.iso_label = QtWidgets.QLabel(Form)
+        self.iso_label.setGeometry(QtCore.QRect(60, 370, 61, 31))
+        font = QtGui.QFont()
+        font.setFamily("Monospace")
+        font.setBold(True)
+        font.setWeight(75)
+        self.iso_label.setFont(font)
+        self.iso_label.setObjectName("iso_label")
+        
+        self.iso_lineEdit = QtWidgets.QLineEdit(Form)
+        self.iso_lineEdit.setGeometry(QtCore.QRect(180, 370, 351, 31))
+        self.iso_lineEdit.setObjectName("iso_lineEdit")
+        
         self.ao_lineEdit = QtWidgets.QLineEdit(Form)
         self.ao_lineEdit.setGeometry(QtCore.QRect(180, 250, 351, 31))
         self.ao_lineEdit.setObjectName("ao_lineEdit")
@@ -96,6 +111,11 @@ class MainUI(object):
         self.emi_lineEdit = QtWidgets.QLineEdit(Form)
         self.emi_lineEdit.setGeometry(QtCore.QRect(180, 330, 351, 31))
         self.emi_lineEdit.setObjectName("emi_lineEdit")
+
+        self.iso_toolButton = QtWidgets.QToolButton(Form)
+        self.iso_toolButton.setGeometry(QtCore.QRect(550, 370, 31, 31))
+        self.iso_toolButton.setObjectName("iso_toolButton")
+        
         self.col_toolButton = QtWidgets.QToolButton(Form)
         self.col_toolButton.setGeometry(QtCore.QRect(550, 90, 31, 31))
         self.col_toolButton.setObjectName("col_toolButton")
@@ -118,10 +138,10 @@ class MainUI(object):
         self.emi_toolButton.setGeometry(QtCore.QRect(550, 330, 31, 31))
         self.emi_toolButton.setObjectName("emi_toolButton")
         self.apply_button = QtWidgets.QPushButton(Form)
-        self.apply_button.setGeometry(QtCore.QRect(390, 390, 88, 31))
+        self.apply_button.setGeometry(QtCore.QRect(390, 420, 88, 31))
         self.apply_button.setObjectName("apply_button")
         self.cancel_button = QtWidgets.QPushButton(Form)
-        self.cancel_button.setGeometry(QtCore.QRect(490, 390, 88, 31))
+        self.cancel_button.setGeometry(QtCore.QRect(490, 420, 88, 31))
         self.cancel_button.setObjectName("cancel_button")
 
         self.retranslateUi(Form)
@@ -137,6 +157,18 @@ class MainUI(object):
         self.emi_toolButton.clicked.connect(self.open_fileDialog_select_emi)
 
         self.cancel_button.clicked.connect(self.cancel_button_close)
+        self.apply_button.clicked.connect(self.apply_button_link)
+        
+        icon_path = '/opt/path/icon'
+        icon_button = QIcon(icon_path)
+        self.col_toolButton.setIcon(icon_button)
+        self.nrm_toolButton.setIcon(icon_button)
+        self.rgh_toolButton.setIcon(icon_button)
+        self.met_toolButton.setIcon(icon_button)
+        self.ao_toolButton.setIcon(icon_button)
+        self.emi_toolButton.setIcon(icon_button)
+        self.bmp_toolButton.setIcon(icon_button)
+        self.iso_toolButton.setIcon(icon_button)
 
 
     def retranslateUi(self, Form):
@@ -150,6 +182,10 @@ class MainUI(object):
         self.ao_label.setText(_translate("Form", "Ambient Occlusion"))
         self.emi_label.setText(_translate("Form", "Emission"))
         self.bmp_label.setText(_translate("Form", "Height"))
+        
+        self.iso_label.setText(_translate("Form", "ISO"))
+        self.iso_toolButton.setText(_translate("Form", "..."))
+        
         self.col_toolButton.setText(_translate("Form", "..."))
         self.nrm_toolButton.setText(_translate("Form", "..."))
         self.rgh_toolButton.setText(_translate("Form", "..."))
@@ -159,6 +195,7 @@ class MainUI(object):
         self.emi_toolButton.setText(_translate("Form", "..."))
         self.apply_button.setText(_translate("Form", "Apply"))
         self.cancel_button.setText(_translate("Form", "Cancel"))
+
 
     def open_fileDialog_select_multiple_image(self):
         options = QFileDialog.Options()
@@ -187,6 +224,14 @@ class MainUI(object):
                     self.bmp_lineEdit.setText(path)
                 elif base_name.endswith(".emi"):
                     self.emi_lineEdit.setText(path)
+            self.col_lineEdit.setReadOnly(True)
+            self.nrm_lineEdit.setReadOnly(True)
+            self.rgh_lineEdit.setReadOnly(True)
+            self.met_lineEdit.setReadOnly(True)
+            self.ao_lineEdit.setReadOnly(True)
+            self.bmp_lineEdit.setReadOnly(True)
+            self.emi_lineEdit.setReadOnly(True)
+            
 
     def open_fileDialog_select_col(self):
         col_options = QFileDialog.Options()
@@ -275,14 +320,21 @@ class MainUI(object):
             self.emi_lineEdit.setText(emi_selected_file)
 
     def apply_button_link(self):
-        pass
+        path_col = self.col_lineEdit.text()
+        path_nrm = self.nrm_lineEdit.text()
+        path_rgh = self.rgh_lineEdit.text()
+        path_met = self.met_lineEdit.text()
+        path_bmp = self.bmp_lineEdit.text()
+        path_ao = self.ao_lineEdit.text()
+        path_emi = self.emi_lineEdit.text()
+        self.create_katana_nodes(path_col, path_nrm, path_rgh, path_met, path_bmp, path_ao, path_emi)
+        self.Form.close()
 
     def cancel_button_close(self):
         self.Form.close()
-
-
-    app = QtWidgets.QApplication.instance()
-    Form = QtWidgets.QWidget()
-    ui = MainUI()
-    ui.setupUi(Form)
-    Form.show()
+        
+app = QtWidgets.QApplication.instance()
+Form = QtWidgets.QWidget()
+ui = MainUI()
+ui.setupUi(Form)
+Form.show()
