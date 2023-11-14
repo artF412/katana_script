@@ -5,6 +5,7 @@ import os
 from os.path import expanduser, splitext
 home = expanduser("~")
 
+
 class MainUI(object):
     def setupUi(self, Form):
         self.Form = Form
@@ -76,20 +77,17 @@ class MainUI(object):
         font.setWeight(75)
         self.bmp_label.setFont(font)
         self.bmp_label.setObjectName("bmp_label")
-        
         self.iso_label = QtWidgets.QLabel(Form)
-        self.iso_label.setGeometry(QtCore.QRect(60, 370, 61, 31))
+        self.iso_label.setGeometry(QtCore.QRect(70, 370, 61, 31))
         font = QtGui.QFont()
         font.setFamily("Monospace")
         font.setBold(True)
         font.setWeight(75)
         self.iso_label.setFont(font)
         self.iso_label.setObjectName("iso_label")
-        
         self.iso_lineEdit = QtWidgets.QLineEdit(Form)
         self.iso_lineEdit.setGeometry(QtCore.QRect(180, 370, 351, 31))
         self.iso_lineEdit.setObjectName("iso_lineEdit")
-        
         self.ao_lineEdit = QtWidgets.QLineEdit(Form)
         self.ao_lineEdit.setGeometry(QtCore.QRect(180, 250, 351, 31))
         self.ao_lineEdit.setObjectName("ao_lineEdit")
@@ -111,11 +109,9 @@ class MainUI(object):
         self.emi_lineEdit = QtWidgets.QLineEdit(Form)
         self.emi_lineEdit.setGeometry(QtCore.QRect(180, 330, 351, 31))
         self.emi_lineEdit.setObjectName("emi_lineEdit")
-
         self.iso_toolButton = QtWidgets.QToolButton(Form)
         self.iso_toolButton.setGeometry(QtCore.QRect(550, 370, 31, 31))
         self.iso_toolButton.setObjectName("iso_toolButton")
-        
         self.col_toolButton = QtWidgets.QToolButton(Form)
         self.col_toolButton.setGeometry(QtCore.QRect(550, 90, 31, 31))
         self.col_toolButton.setObjectName("col_toolButton")
@@ -143,10 +139,10 @@ class MainUI(object):
         self.cancel_button = QtWidgets.QPushButton(Form)
         self.cancel_button.setGeometry(QtCore.QRect(490, 420, 88, 31))
         self.cancel_button.setObjectName("cancel_button")
-
+        
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
-
+        
         self.select_multiple_image.clicked.connect(self.open_fileDialog_select_multiple_image)
         self.col_toolButton.clicked.connect(self.open_fileDialog_select_col)
         self.nrm_toolButton.clicked.connect(self.open_fileDialog_select_nrm)
@@ -155,11 +151,11 @@ class MainUI(object):
         self.ao_toolButton.clicked.connect(self.open_fileDialog_select_ao)
         self.bmp_toolButton.clicked.connect(self.open_fileDialog_select_bmp)
         self.emi_toolButton.clicked.connect(self.open_fileDialog_select_emi)
-
+        self.iso_toolButton.clicked.connect(self.open_fileDialog_select_iso)
         self.cancel_button.clicked.connect(self.cancel_button_close)
         self.apply_button.clicked.connect(self.apply_button_link)
         
-        icon_path = '/opt/path/icon'
+        icon_path = '/to/path/icon.png'
         icon_button = QIcon(icon_path)
         self.col_toolButton.setIcon(icon_button)
         self.nrm_toolButton.setIcon(icon_button)
@@ -182,10 +178,9 @@ class MainUI(object):
         self.ao_label.setText(_translate("Form", "Ambient Occlusion"))
         self.emi_label.setText(_translate("Form", "Emission"))
         self.bmp_label.setText(_translate("Form", "Height"))
-        
         self.iso_label.setText(_translate("Form", "ISO"))
-        self.iso_toolButton.setText(_translate("Form", "..."))
         
+        self.iso_toolButton.setText(_translate("Form", "..."))
         self.col_toolButton.setText(_translate("Form", "..."))
         self.nrm_toolButton.setText(_translate("Form", "..."))
         self.rgh_toolButton.setText(_translate("Form", "..."))
@@ -224,6 +219,8 @@ class MainUI(object):
                     self.bmp_lineEdit.setText(path)
                 elif base_name.endswith(".emi"):
                     self.emi_lineEdit.setText(path)
+                elif base_name.endswith(".iso"):
+                    self.iso_lineEdit.setText(path)
             self.col_lineEdit.setReadOnly(True)
             self.nrm_lineEdit.setReadOnly(True)
             self.rgh_lineEdit.setReadOnly(True)
@@ -231,6 +228,7 @@ class MainUI(object):
             self.ao_lineEdit.setReadOnly(True)
             self.bmp_lineEdit.setReadOnly(True)
             self.emi_lineEdit.setReadOnly(True)
+            self.iso_lineEdit.setReadOnly(True)
             
 
     def open_fileDialog_select_col(self):
@@ -258,6 +256,7 @@ class MainUI(object):
             self.nrm_lineEdit.setReadOnly(True)
             self.nrm_lineEdit.setText(nrm_selected_file)
 
+
     def open_fileDialog_select_rgh(self):
         rgh_options = QFileDialog.Options()
         rgh_dialog = QFileDialog()
@@ -269,6 +268,7 @@ class MainUI(object):
         if rgh_selected_file:
             self.rgh_lineEdit.setReadOnly(True)
             self.rgh_lineEdit.setText(rgh_selected_file)
+
 
     def open_fileDialog_select_met(self):
         met_options = QFileDialog.Options()
@@ -282,6 +282,7 @@ class MainUI(object):
             self.met_lineEdit.setReadOnly(True)
             self.met_lineEdit.setText(met_selected_file)
 
+
     def open_fileDialog_select_ao(self):
         ao_options = QFileDialog.Options()
         ao_dialog = QFileDialog()
@@ -293,6 +294,7 @@ class MainUI(object):
         if ao_selected_file:
             self.ao_lineEdit.setReadOnly(True)
             self.ao_lineEdit.setText(ao_selected_file)
+
 
     def open_fileDialog_select_bmp(self):
         bmp_options = QFileDialog.Options()
@@ -318,6 +320,21 @@ class MainUI(object):
         if emi_selected_file:
             self.emi_lineEdit.setReadOnly(True)
             self.emi_lineEdit.setText(emi_selected_file)
+            
+            
+    def open_fileDialog_select_iso(self):
+        iso_options = QFileDialog.Options()
+        iso_dialog = QFileDialog()
+        iso_dialog.setWindowTitle("ISO")
+        iso_dialog.setDirectory(home)
+        iso_dialog.setNameFilter("Image files (*.jpg *.png *.exr *.tif *.tga *.tx)")
+        iso_selected_file, _ = iso_dialog.getOpenFileName(None, "Open Images", "", "Image files (*.jpg *.png *.exr *.tif *.tga *.tx)", options=iso_options)
+        
+        if iso_selected_file:
+            self.iso_lineEdit.setReadOnly(True)
+            self.iso_lineEdit.setText(iso_selected_file)
+        
+
 
     def apply_button_link(self):
         path_col = self.col_lineEdit.text()
@@ -327,19 +344,20 @@ class MainUI(object):
         path_bmp = self.bmp_lineEdit.text()
         path_ao = self.ao_lineEdit.text()
         path_emi = self.emi_lineEdit.text()
-        self.create_katana_nodes(path_col, path_nrm, path_rgh, path_met, path_bmp, path_ao, path_emi)
+        path_iso = self.iso_lineEdit.text()
+        self.create_katana_nodes(path_col, path_nrm, path_rgh, path_met, path_bmp, path_ao, path_emi, path_iso)
         self.Form.close()
+
 
     def cancel_button_close(self):
         self.Form.close()
 
 
-    def create_katana_nodes(self, path_col, path_nrm, path_rgh, path_met, path_bmp, path_ao, path_emi):
+    def create_katana_nodes(self, path_col, path_nrm, path_rgh, path_met, path_bmp, path_ao, path_emi, path_iso):
         root_node = NodegraphAPI.GetRootNode()
 
         network_material_create = NodegraphAPI.CreateNode('NetworkMaterialCreate', root_node)
         network_material = network_material_create.getNetworkMaterials()[0]
-
 
         # Create node standard_surface
         standard_surface = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
@@ -353,6 +371,7 @@ class MainUI(object):
         standard_surface_out.connect(network_material_in)
 
         standard_surface_position = NodegraphAPI.GetNodePosition(standard_surface)
+
 
         if path_col:
             # create node col_color_correct
@@ -385,6 +404,7 @@ class MainUI(object):
             NodegraphAPI.SetNodePosition(col_color_correct,(standard_surface_position[0]-400,standard_surface_position[1]))
             NodegraphAPI.SetNodePosition(image_col,(standard_surface_position[0]-800,standard_surface_position[1]))
         
+        
         if path_rgh:
             # Create node rgh_ramp_float
             rgh_ramp_float = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
@@ -416,6 +436,7 @@ class MainUI(object):
             NodegraphAPI.SetNodePosition(rgh_ramp_float,(standard_surface_position[0]-400,standard_surface_position[1]-400))
             NodegraphAPI.SetNodePosition(image_rgh,(standard_surface_position[0]-800,standard_surface_position[1]-400))
 
+
         if path_met:  
             # create node met_ramp_float
             met_ramp_float = NodegraphAPI.CreateNode('ArnoldShadingNode',network_material_create)
@@ -446,6 +467,7 @@ class MainUI(object):
             # set position
             NodegraphAPI.SetNodePosition(met_ramp_float,(standard_surface_position[0]-400,standard_surface_position[1]-800))
             NodegraphAPI.SetNodePosition(image_met,(standard_surface_position[0]-800,standard_surface_position[1]-800))
+           
             
         if path_nrm:
             # create node normal_map
@@ -477,6 +499,7 @@ class MainUI(object):
             # set position
             NodegraphAPI.SetNodePosition(normal_map,(standard_surface_position[0]-400,standard_surface_position[1]-1200))
             NodegraphAPI.SetNodePosition(image_nrm,(standard_surface_position[0]-800,standard_surface_position[1]-1200))
+            
             
         if path_bmp:
             # create node bump2d
@@ -536,6 +559,7 @@ class MainUI(object):
             NodegraphAPI.SetNodePosition(emi_color_correct,(standard_surface_position[0]-400,standard_surface_position[1]-2400))
             NodegraphAPI.SetNodePosition(image_emi,(standard_surface_position[0]-800,standard_surface_position[1]-2400))
             
+            
         if path_ao:
             # create node image_ao
             image_ao = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
@@ -549,6 +573,34 @@ class MainUI(object):
             
             #set position
             NodegraphAPI.SetNodePosition(image_ao,(standard_surface_position[0]-800,standard_surface_position[1]-1600))
+            
+            
+        if path_iso:
+            # create node met_ramp_float
+            iso_ramp_float = NodegraphAPI.CreateNode('ArnoldShadingNode',network_material_create)
+            iso_ramp_float.getParameter('name').setValue('iso_ramp_float',0)
+            iso_ramp_float.getParameter('nodeType').setValue('ramp_float',0)
+            iso_ramp_float.checkDynamicParameters() 
+            
+            # create node image_iso
+            image_iso = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
+            image_iso.getParameter('name').setValue('iso',0)
+            image_iso.getParameter('nodeType').setValue('image',0)
+            image_iso.checkDynamicParameters()
+            
+            # Link node iso [out] -> [input] node iso_ramp_float
+            image_iso_out = image_iso.getOutputPort('out')
+            iso_ramp_float_input = iso_ramp_float.getInputPort('input')
+            image_iso_out.connect(iso_ramp_float_input)
+            
+            # Get parameters image_nrm filename
+            image_iso.getParameter('parameters.filename.value').setValue(path_iso, 0)
+            image_iso.getParameter('parameters.filename.enable').setValue(1, 0)
+            
+            #set position
+            NodegraphAPI.SetNodePosition(iso_ramp_float,(standard_surface_position[0]-400,standard_surface_position[1]-2800))
+            NodegraphAPI.SetNodePosition(image_iso,(standard_surface_position[0]-800,standard_surface_position[1]-2800))
+
 
 app = QtWidgets.QApplication.instance()
 Form = QtWidgets.QWidget()
