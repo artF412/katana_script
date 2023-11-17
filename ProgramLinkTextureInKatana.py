@@ -155,7 +155,7 @@ class MainUI(object):
         self.cancel_button.clicked.connect(self.cancel_button_close)
         self.apply_button.clicked.connect(self.apply_button_link)
         
-        icon_path = '/to/path/icon.png'
+        icon_path = '/home/faiz/Desktop/Gakuseisean-Aire-Search.24.png'
         icon_button = QIcon(icon_path)
         self.col_toolButton.setIcon(icon_button)
         self.nrm_toolButton.setIcon(icon_button)
@@ -374,9 +374,11 @@ class MainUI(object):
 
 
         if path_col:
+            asset_name_col = os.path.basename(path_col).split('.')[0]
+            
             # create node col_color_correct
             col_color_correct = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            col_color_correct.getParameter('name').setValue('col_color_correct',0)
+            col_color_correct.getParameter('name').setValue('colorCorrect_col_{}'.format(asset_name_col),0)
             col_color_correct.getParameter('nodeType').setValue('color_correct',0)
             col_color_correct.checkDynamicParameters()
 
@@ -387,7 +389,7 @@ class MainUI(object):
             
             # create node image_baseColor
             image_col = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            image_col.getParameter('name').setValue('col',0)
+            image_col.getParameter('name').setValue('image_col_{}'.format(asset_name_col),0)
             image_col.getParameter('nodeType').setValue('image', 0)
             image_col.checkDynamicParameters()
 
@@ -406,9 +408,11 @@ class MainUI(object):
         
         
         if path_rgh:
+            asset_name_rgh = os.path.basename(path_rgh).split('.')[0]
+            
             # Create node rgh_ramp_float
             rgh_ramp_float = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            rgh_ramp_float.getParameter('name').setValue('rgh_ramp_float',0)
+            rgh_ramp_float.getParameter('name').setValue('rampFloat_rgh_{}'.format(asset_name_rgh),0)
             rgh_ramp_float.getParameter('nodeType').setValue('ramp_float',0)
             rgh_ramp_float.checkDynamicParameters()
 
@@ -419,7 +423,7 @@ class MainUI(object):
             
             # create node image_roughtness
             image_rgh = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            image_rgh.getParameter('name').setValue('rgh',0)
+            image_rgh.getParameter('name').setValue('image_rgh_{}'.format(asset_name_rgh),0)
             image_rgh.getParameter('nodeType').setValue('image', 0)
             image_rgh.checkDynamicParameters()
 
@@ -438,9 +442,11 @@ class MainUI(object):
 
 
         if path_met:  
+            asset_name_met = os.path.basename(path_met).split('.')[0]
+            
             # create node met_ramp_float
             met_ramp_float = NodegraphAPI.CreateNode('ArnoldShadingNode',network_material_create)
-            met_ramp_float.getParameter('name').setValue('met_ramp_float',0)
+            met_ramp_float.getParameter('name').setValue('rampFloat_met_{}'.format(asset_name_met),0)
             met_ramp_float.getParameter('nodeType').setValue('ramp_float',0)
             met_ramp_float.checkDynamicParameters()
 
@@ -451,7 +457,7 @@ class MainUI(object):
             
             # create node image_matelness
             image_met = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            image_met.getParameter('name').setValue('met',0)
+            image_met.getParameter('name').setValue('image_met_{}'.format(asset_name_met),0)
             image_met.getParameter('nodeType').setValue('image',0)
             image_met.checkDynamicParameters()
 
@@ -467,12 +473,14 @@ class MainUI(object):
             # set position
             NodegraphAPI.SetNodePosition(met_ramp_float,(standard_surface_position[0]-400,standard_surface_position[1]-800))
             NodegraphAPI.SetNodePosition(image_met,(standard_surface_position[0]-800,standard_surface_position[1]-800))
-           
+            
             
         if path_nrm:
+            asset_name_nrm = os.path.basename(path_nrm).split('.')[0]
+            
             # create node normal_map
             normal_map = NodegraphAPI.CreateNode('ArnoldShadingNode',network_material_create)
-            normal_map.getParameter('name').setValue('normal_map',0)
+            normal_map.getParameter('name').setValue('normalMap_{}'.format(asset_name_nrm),0)
             normal_map.getParameter('nodeType').setValue('normal_map',0)
             normal_map.checkDynamicParameters()
 
@@ -483,7 +491,7 @@ class MainUI(object):
             
             # create node image_nrm
             image_nrm = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            image_nrm.getParameter('name').setValue('nrm',0)
+            image_nrm.getParameter('name').setValue('image_nrm_{}'.format(asset_name_nrm),0)
             image_nrm.getParameter('nodeType').setValue('image',0)
             image_nrm.checkDynamicParameters()
 
@@ -502,15 +510,17 @@ class MainUI(object):
             
             
         if path_bmp:
+            asset_name_bmp = os.path.basename(path_bmp).split('.')[0]
+            
             # create node bump2d
             bump_2d = NodegraphAPI.CreateNode('ArnoldShadingNode',network_material_create)
-            bump_2d.getParameter('name').setValue('bump2d',0)
+            bump_2d.getParameter('name').setValue('bump2d_{}'.format(asset_name_bmp),0)
             bump_2d.getParameter('nodeType').setValue('bump2d',0)
             bump_2d.checkDynamicParameters()
 
             # create node image_bmp
             image_bmp = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            image_bmp.getParameter('name').setValue('bmp',0)
+            image_bmp.getParameter('name').setValue('image_bmp_{}'.format(asset_name_bmp),0)
             image_bmp.getParameter('nodeType').setValue('image',0)
             image_bmp.checkDynamicParameters()
             
@@ -529,9 +539,11 @@ class MainUI(object):
             
         
         if path_emi:
+            asset_name_emi = os.path.basename(path_emi).split('.')[0]
+            
             # create node emi_color_correct
             emi_color_correct = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            emi_color_correct.getParameter('name').setValue('emi_color_correct',0)
+            emi_color_correct.getParameter('name').setValue('colorCorrect_emi_{}'.format(asset_name_emi),0)
             emi_color_correct.getParameter('nodeType').setValue('color_correct',0)
             emi_color_correct.checkDynamicParameters()
 
@@ -542,7 +554,7 @@ class MainUI(object):
 
             # create node image_emi
             image_emi = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            image_emi.getParameter('name').setValue('emi',0)
+            image_emi.getParameter('name').setValue('image_emi_{}'.format(asset_name_emi),0)
             image_emi.getParameter('nodeType').setValue('image',0)
             image_emi.checkDynamicParameters()
             
@@ -561,9 +573,11 @@ class MainUI(object):
             
             
         if path_ao:
+            asset_name_ao = os.path.basename(path_ao).split('.')[0]
+            
             # create node image_ao
             image_ao = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            image_ao.getParameter('name').setValue('ao',0)
+            image_ao.getParameter('name').setValue('image_ao_{}'.format(asset_name_ao),0)
             image_ao.getParameter('nodeType').setValue('image',0)
             image_ao.checkDynamicParameters()
             
@@ -576,15 +590,17 @@ class MainUI(object):
             
             
         if path_iso:
+            asset_name_iso = os.path.basename(path_iso).split('.')[0]
+            
             # create node met_ramp_float
             iso_ramp_float = NodegraphAPI.CreateNode('ArnoldShadingNode',network_material_create)
-            iso_ramp_float.getParameter('name').setValue('iso_ramp_float',0)
+            iso_ramp_float.getParameter('name').setValue('rampFloat_iso_{}'.format(asset_name_iso),0)
             iso_ramp_float.getParameter('nodeType').setValue('ramp_float',0)
             iso_ramp_float.checkDynamicParameters() 
             
             # create node image_iso
             image_iso = NodegraphAPI.CreateNode('ArnoldShadingNode', network_material_create)
-            image_iso.getParameter('name').setValue('iso',0)
+            image_iso.getParameter('name').setValue('image_iso_{}'.format(asset_name_iso),0)
             image_iso.getParameter('nodeType').setValue('image',0)
             image_iso.checkDynamicParameters()
             
