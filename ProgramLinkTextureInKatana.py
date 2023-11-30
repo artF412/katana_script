@@ -617,7 +617,6 @@ class MainUI(object):
             NodegraphAPI.SetNodePosition(iso_ramp_float,(standard_surface_position[0]-400,standard_surface_position[1]-2800))
             NodegraphAPI.SetNodePosition(image_iso,(standard_surface_position[0]-800,standard_surface_position[1]-2800))
 
-
 app = QtWidgets.QApplication.instance()
 Form = QtWidgets.QWidget()
 ui = MainUI()
