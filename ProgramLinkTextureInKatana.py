@@ -198,6 +198,7 @@ class MainUI(object):
         file_dialog.setWindowTitle("Katana Workflow to Image Maps")
         file_dialog.setDirectory(home)
         file_dialog.setNameFilter("Image files (*.jpg *.png *.exr *.tif *.tga *.tx)")
+        file_dialog.setOption(QFileDialog.ReadOnly, False)
         file_paths, _ = file_dialog.getOpenFileNames(None, "Open Images", "", "Image files (*.jpg *.png *.exr *.tif *.tga *.tx)", options=options)
 
         if file_paths:
@@ -402,6 +403,10 @@ class MainUI(object):
             image_col.getParameter('parameters.filename.value').setValue(path_col, 0)
             image_col.getParameter('parameters.filename.enable').setValue(1, 0)
             
+            # Get parameter image_col ignore_missing_textures
+            image_col.getParameter('parameters.ignore_missing_textures.enable').setValue(1, 0)
+            image_col.getParameter('parameters.ignore_missing_textures.value').setValue(1, 0)
+            
             # set position
             NodegraphAPI.SetNodePosition(col_color_correct,(standard_surface_position[0]-400,standard_surface_position[1]))
             NodegraphAPI.SetNodePosition(image_col,(standard_surface_position[0]-800,standard_surface_position[1]))
@@ -435,6 +440,10 @@ class MainUI(object):
             # Get parameters image_rgh filename
             image_rgh.getParameter('parameters.filename.value').setValue(path_rgh, 0)
             image_rgh.getParameter('parameters.filename.enable').setValue(1, 0)
+
+            # Get parameter image_rgh ignore_missing_textures
+            image_rgh.getParameter('parameters.ignore_missing_textures.enable').setValue(1, 0)
+            image_rgh.getParameter('parameters.ignore_missing_textures.value').setValue(1, 0)
             
             # set position
             NodegraphAPI.SetNodePosition(rgh_ramp_float,(standard_surface_position[0]-400,standard_surface_position[1]-400))
@@ -469,6 +478,10 @@ class MainUI(object):
             # Get parameters image_met filename
             image_met.getParameter('parameters.filename.value').setValue(path_met, 0)
             image_met.getParameter('parameters.filename.enable').setValue(1, 0)
+
+            # Get parameter image_met ignore_missing_textures
+            image_met.getParameter('parameters.ignore_missing_textures.enable').setValue(1, 0)
+            image_met.getParameter('parameters.ignore_missing_textures.value').setValue(1, 0)
             
             # set position
             NodegraphAPI.SetNodePosition(met_ramp_float,(standard_surface_position[0]-400,standard_surface_position[1]-800))
@@ -503,6 +516,10 @@ class MainUI(object):
             # Get parameters image_nrm filename
             image_nrm.getParameter('parameters.filename.value').setValue(path_nrm, 0)
             image_nrm.getParameter('parameters.filename.enable').setValue(1, 0)
+
+            # Get parameter image_nrm ignore_missing_textures
+            image_nrm.getParameter('parameters.ignore_missing_textures.enable').setValue(1, 0)
+            image_nrm.getParameter('parameters.ignore_missing_textures.value').setValue(1, 0)
             
             # set position
             NodegraphAPI.SetNodePosition(normal_map,(standard_surface_position[0]-400,standard_surface_position[1]-1200))
@@ -532,6 +549,10 @@ class MainUI(object):
             # Get parameters image_nrm filename
             image_bmp.getParameter('parameters.filename.value').setValue(path_bmp, 0)
             image_bmp.getParameter('parameters.filename.enable').setValue(1, 0)
+
+            # Get parameter image_bmp ignore_missing_textures
+            image_bmp.getParameter('parameters.ignore_missing_textures.enable').setValue(1, 0)
+            image_bmp.getParameter('parameters.ignore_missing_textures.value').setValue(1, 0)
             
             # set position
             NodegraphAPI.SetNodePosition(bump_2d,(standard_surface_position[0]-400,standard_surface_position[1]-2000))
@@ -566,6 +587,10 @@ class MainUI(object):
             # Get parameters image_nrm filename
             image_emi.getParameter('parameters.filename.value').setValue(path_emi, 0)
             image_emi.getParameter('parameters.filename.enable').setValue(1, 0)
+
+            # Get parameter image_emi ignore_missing_textures
+            image_emi.getParameter('parameters.ignore_missing_textures.enable').setValue(1, 0)
+            image_emi.getParameter('parameters.ignore_missing_textures.value').setValue(1, 0)
             
             # set position
             NodegraphAPI.SetNodePosition(emi_color_correct,(standard_surface_position[0]-400,standard_surface_position[1]-2400))
@@ -584,6 +609,10 @@ class MainUI(object):
             # Get parameters image_nrm filename
             image_ao.getParameter('parameters.filename.value').setValue(path_ao, 0)
             image_ao.getParameter('parameters.filename.enable').setValue(1, 0)
+
+            # Get parameter image_ao ignore_missing_textures
+            image_ao.getParameter('parameters.ignore_missing_textures.enable').setValue(1, 0)
+            image_ao.getParameter('parameters.ignore_missing_textures.value').setValue(1, 0)
             
             #set position
             NodegraphAPI.SetNodePosition(image_ao,(standard_surface_position[0]-800,standard_surface_position[1]-1600))
@@ -612,10 +641,15 @@ class MainUI(object):
             # Get parameters image_nrm filename
             image_iso.getParameter('parameters.filename.value').setValue(path_iso, 0)
             image_iso.getParameter('parameters.filename.enable').setValue(1, 0)
+
+            # Get parameter image_iso ignore_missing_textures
+            image_iso.getParameter('parameters.ignore_missing_textures.enable').setValue(1, 0)
+            image_iso.getParameter('parameters.ignore_missing_textures.value').setValue(1, 0)
             
             #set position
             NodegraphAPI.SetNodePosition(iso_ramp_float,(standard_surface_position[0]-400,standard_surface_position[1]-2800))
             NodegraphAPI.SetNodePosition(image_iso,(standard_surface_position[0]-800,standard_surface_position[1]-2800))
+
 
 app = QtWidgets.QApplication.instance()
 Form = QtWidgets.QWidget()
